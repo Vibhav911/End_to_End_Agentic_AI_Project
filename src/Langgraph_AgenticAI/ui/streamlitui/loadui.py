@@ -3,6 +3,7 @@ import os
 
 from src.Langgraph_AgenticAI.ui.uiconfigfile import Config
 
+
 class LoadStreamlitUI:
     def __init__(self):
         self.config = Config()  # config
@@ -21,9 +22,9 @@ class LoadStreamlitUI:
 
     def load_streamlit_ui(self):
         st.set_page_config(
-            page_title="🤖 " + str(self.config.get_page_title()), layout="wide"
-            )
-        st.header("🤖 " + str(self.config.get_page_title()))
+            page_title="🤖 " + self.config.get_page_title(), layout="wide"
+        )
+        st.header("🤖 " + self.config.get_page_title())
         st.session_state.timeframe = ""
         st.session_state.IsFetchButtonClicked = False
         st.session_state.IsSDLC = False
@@ -39,7 +40,7 @@ class LoadStreamlitUI:
             if self.user_controls["selected_llm"] == "Groq":
                 # Model selection
                 model_options = self.config.get_groq_model_options()
-                self.user_controls["selected_groq_models"] = st.selectbox(
+                self.user_controls["selected_groq_model"] = st.selectbox(
                     "Select Model", model_options
                 )
                 # API key input
@@ -58,7 +59,7 @@ class LoadStreamlitUI:
             )
 
             if (
-                self.user_controls["selected_usecase"] == "Chatbot with Tool"
+                self.user_controls["selected_usecase"] == "Basic Tool Chatbot"
                 or self.user_controls["selected_usecase"] == "AI News"
             ):
                 # API key input
@@ -73,21 +74,21 @@ class LoadStreamlitUI:
                         "⚠️ Please enter your TAVILY_API_KEY key to proceed. Don't have? refer : https://app.tavily.com/home"
                     )
 
-                elif self.user_controls["selected_usecase"] == "AI News":
-                    st.subheader("📰 AI News Explorer ")
+                # elif self.user_controls["selected_usecase"] == "AI News":
+                #     st.subheader("📰 AI News Explorer ")
 
-                    with st.sidebar:
-                        time_frame = st.selectbox(
-                            "📅 Select Time Frame",
-                            ["Daily", "Weekly", "Monthly"],
-                            index=0,
-                        )
+                #     with st.sidebar:
+                #         time_frame = st.selectbox(
+                #             "📅 Select Time Frame",
+                #             ["Daily", "Weekly", "Monthly"],
+                #             index=0,
+                #         )
 
-                    if st.button("🔍 Fetch Latest AI News", use_container_width=True):
-                        st.session_state.IsFetchButtonClicked = True
-                        st.session_state.timeframe = time_frame
-                    else:
-                        st.session_state.IsFetchButtonClicked = False
+                #     if st.button("🔍 Fetch Latest AI News", use_container_width=True):
+                #         st.session_state.IsFetchButtonClicked = True
+                #         st.session_state.timeframe = time_frame
+                #     else:
+                #         st.session_state.IsFetchButtonClicked = False
 
             if "state" not in st.session_state:
                 st.session_state.state = self.initialize_session()
